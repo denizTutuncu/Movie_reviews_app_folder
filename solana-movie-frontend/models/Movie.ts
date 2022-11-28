@@ -67,7 +67,7 @@ export class Movie {
 
   static borshAccountSchema = borsh.struct([
     borsh.str("discriminator"),
-    borsh.bool("initialized"),
+    borsh.bool("is_initialized"),
     borsh.publicKey("reviewer"),
     borsh.u8("rating"),
     borsh.str("title"),

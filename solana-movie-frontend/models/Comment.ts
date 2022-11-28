@@ -35,7 +35,7 @@ export class Comment {
 
     private static commentLayout = borsh.struct([
         borsh.str("discriminator"),
-        borsh.u8("isInitialized"),
+        borsh.u8("is_initialized"),
         borsh.publicKey("review"),
         borsh.publicKey("commenter"),
         borsh.str("comment"),
