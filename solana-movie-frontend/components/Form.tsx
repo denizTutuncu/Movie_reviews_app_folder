@@ -27,7 +27,6 @@ export const Form: FC = () => {
 
     const { connection } = useConnection()
     const { publicKey, sendTransaction } = useWallet()
-    console.log("Movie program ID",MOVIE_REVIEW_PROGRAM_ID);
 
     const handleSubmit = (event: any) => {
         event.preventDefault()
@@ -58,7 +57,6 @@ export const Form: FC = () => {
             [pda.toBuffer(), Buffer.from("comment")], // new TextEncoder().encode(movie.title)],
             new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
         )
-
         const instruction = new web3.TransactionInstruction({
             keys: [
                 {
