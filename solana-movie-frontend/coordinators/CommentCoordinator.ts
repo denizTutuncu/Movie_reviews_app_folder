@@ -10,7 +10,7 @@ export class CommentCoordinator {
 
     private static counterLayout = borsh.struct([
         borsh.str("discriminator"),
-        borsh.u8("isInitialized"),
+        borsh.u8("is_initialized"),
         borsh.u8("count"),
     ])
 
