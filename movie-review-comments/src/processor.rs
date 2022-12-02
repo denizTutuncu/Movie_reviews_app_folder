@@ -14,8 +14,12 @@ use solana_program::{
     program_pack::IsInitialized,
     pubkey::Pubkey,
     system_instruction,
-    sysvar::{rent::Rent, Sysvar},
+    sysvar::{rent::Rent, Sysvar, rent::ID as RENT_PROGRAM_ID},
+    native_token::LAMPORTS_PER_SOL,
+    system_program::ID as SYSTEM_PROGRAM_ID
 };
+use spl_associated_token_account::get_associated_token_address;
+use spl_token::{instruction::initialize_mint, ID as TOKEN_PROGRAM_ID};
 use std::convert::TryInto;
 
 pub fn process_instruction(
@@ -37,6 +41,7 @@ pub fn process_instruction(
         } => update_movie_review(program_id, accounts, title, rating, description),
 
         MovieInstruction::AddComment { comment } => add_comment(program_id, accounts, comment),
+        MovieInstruction::InitializeMint => initialize_token_mint(program_id, accounts),
     }
 }
 
@@ -56,6 +61,7 @@ pub fn add_movie_review(
 
     let initializer = next_account_info(account_info_iter)?;
     let pda_account = next_account_info(account_info_iter)?;
+    let pda_counter = next_account_info(account_info_iter)?;
     let system_program = next_account_info(account_info_iter)?;
 
     if !initializer.is_signer {
@@ -63,20 +69,12 @@ pub fn add_movie_review(
         return Err(ProgramError::MissingRequiredSignature);
     }
 
-    let (pda, _bump_seed) = Pubkey::find_program_address(
+    let (pda, bump_seed) = Pubkey::find_program_address(
         &[initializer.key.as_ref(), title.as_bytes().as_ref()],
         program_id,
     );
     if pda != *pda_account.key {
         msg!("Invalid seeds for PDA");
-        return Err(ProgramError::InvalidArgument);
-    }
-
-    let (counter_pda, _counter_bump_seed) =
-        Pubkey::find_program_address(&[pda.as_ref(), "comment".as_ref()], program_id);
-
-    if counter_pda != *pda_counter.key {
-        msg!("Invalid seeds for counter PDA");
         return Err(ProgramError::InvalidArgument);
     }
 
@@ -92,10 +90,56 @@ pub fn add_movie_review(
         return Err(ReviewError::InvalidDataLength.into());
     }
 
+    let rent = Rent::get()?;
+    let rent_lamports = rent.minimum_balance(account_len);
+
+    invoke_signed(
+        &system_instruction::create_account(
+            initializer.key,
+            pda_account.key,
+            rent_lamports,
+            account_len.try_into().unwrap(),
+            program_id,
+        ),
+        &[
+            initializer.clone(),
+            pda_account.clone(),
+            system_program.clone(),
+        ],
+        &[&[
+            initializer.key.as_ref(),
+            title.as_bytes().as_ref(),
+            &[bump_seed],
+        ]],
+    )?;
+
+    msg!("PDA created: {}", pda);
+
+    msg!("unpacking state account");
+    let mut account_data =
+        try_from_slice_unchecked::<MovieAccountState>(&pda_account.data.borrow()).unwrap();
+    msg!("borrowed account data");
+
+    msg!("checking if movie account is already initialized");
+    if account_data.is_initialized() {
+        msg!("Account already initialized");
+        return Err(ProgramError::AccountAlreadyInitialized);
+    }
+
+    account_data.discriminator = MovieAccountState::DISCRIMINATOR.to_string();
+    account_data.title = title;
+    account_data.reviewer = *initializer.key;
+    account_data.rating = rating;
+    account_data.description = description;
+    account_data.is_initialized = true;
+
+    msg!("serializing account");
+    account_data.serialize(&mut &mut pda_account.data.borrow_mut()[..])?;
+    msg!("state account serialized");
+
     msg!("Creating comment counter");
     let rent = Rent::get()?;
     let counter_rent_lamports = rent.minimum_balance(MovieCommentCounter::SIZE);
-
     // Deriving the address and validating that the correct seeds were passed in
     let (counter, counter_bump) =
         Pubkey::find_program_address(&[pda.as_ref(), "comment".as_ref()], program_id);
@@ -107,8 +151,8 @@ pub fn add_movie_review(
     // Creating the comment counter account
     invoke_signed(
         &system_instruction::create_account(
-            initializer.key,                               // Rent payer
-            pda_counter.key,       // Address who we're creating the account for
+            initializer.key, // Rent payer 
+            pda_counter.key, // Address who we're creating the account for
             counter_rent_lamports, // Amount of rent to put into the account
             MovieCommentCounter::SIZE.try_into().unwrap(), // Size of the account
             program_id,
@@ -120,7 +164,7 @@ pub fn add_movie_review(
             system_program.clone(),
         ],
         // Seeds for the PDA
-        // PDA account
+        // PDA account 
         // The string "comment"
         &[&[pda.as_ref(), "comment".as_ref(), &[counter_bump]]],
     )?;
@@ -300,6 +344,106 @@ pub fn add_comment(
     msg!("Comment Count: {}", counter_data.counter);
     counter_data.counter += 1;
     counter_data.serialize(&mut &mut pda_counter.data.borrow_mut()[..])?;
+
+    Ok(())
+}
+
+pub fn initialize_token_mint(program_id: &Pubkey, accounts: &[AccountInfo]) -> ProgramResult {
+    let account_info_iter = &mut accounts.iter();
+
+    // The order of accounts is not arbitrary, the client will send them in this order
+    // Whoever sent in the transaction
+    let initializer = next_account_info(account_info_iter)?;
+    // Token mint PDA - derived on the client
+    let token_mint = next_account_info(account_info_iter)?;
+    // Token mint authorirty (this should be you)
+    let mint_auth = next_account_info(account_info_iter)?;
+    // System program to create a new account
+    let system_program = next_account_info(account_info_iter)?;
+    // Solana Token program address
+    let token_program = next_account_info(account_info_iter)?;
+    // System account to calcuate the rent
+    let sysvar_rent = next_account_info(account_info_iter)?;
+
+    // Derive the mint PDA again so we can validate it
+    // The seed is just "token_mint"
+    let (mint_pda, mint_bump) = Pubkey::find_program_address(&[b"token_mint"], program_id);
+    // Derive the mint authority so we can validate it
+    // The seed is just "token_auth"
+    let (mint_auth_pda, _mint_auth_bump) =
+        Pubkey::find_program_address(&[b"token_auth"], program_id);
+
+    msg!("Token mint: {:?}", mint_pda);
+    msg!("Mint authority: {:?}", mint_auth_pda);
+
+    // Validate the important accounts passed in
+    if mint_pda != *token_mint.key {
+        msg!("Incorrect token mint account");
+        return Err(ReviewError::IncorrectAccountError.into());
+    }
+
+    if *token_program.key != TOKEN_PROGRAM_ID {
+        msg!("Incorrect token program");
+        return Err(ReviewError::IncorrectAccountError.into());
+    }
+
+    if *mint_auth.key != mint_auth_pda {
+        msg!("Incorrect mint auth account");
+        return Err(ReviewError::IncorrectAccountError.into());
+    }
+
+    if *system_program.key != SYSTEM_PROGRAM_ID {
+        msg!("Incorrect system program");
+        return Err(ReviewError::IncorrectAccountError.into());
+    }
+
+    if *sysvar_rent.key != RENT_PROGRAM_ID {
+        msg!("Incorrect rent program");
+        return Err(ReviewError::IncorrectAccountError.into());
+    }
+
+    // Calculate the rent
+    let rent = Rent::get()?;
+    // We know the size of a mint account is 82 (remember it lol)
+    let rent_lamports = rent.minimum_balance(82);
+
+    // Create the token mint PDA
+    invoke_signed(
+        &system_instruction::create_account(
+            initializer.key,
+            token_mint.key,
+            rent_lamports,
+            82, // Size of the token mint account
+            token_program.key,
+        ),
+        // Accounts we're reading from or writing to 
+        &[
+            initializer.clone(),
+            token_mint.clone(),
+            system_program.clone(),
+        ],
+        // Seeds for our token mint account
+        &[&[b"token_mint", &[mint_bump]]],
+    )?;
+
+    msg!("Created token mint account");
+
+    // Initialize the mint account
+    invoke_signed(
+        &initialize_mint(
+            token_program.key,
+            token_mint.key,
+            mint_auth.key,
+            Option::None, // Freeze authority - we don't want anyone to be able to freeze!
+            9, // Number of decimals
+        )?,
+        // Which accounts we're reading from or writing to
+        &[token_mint.clone(), sysvar_rent.clone(), mint_auth.clone()],
+        // The seeds for our token mint PDA
+        &[&[b"token_mint", &[mint_bump]]],
+    )?;
+
+    msg!("Initialized token mint");
 
     Ok(())
 }

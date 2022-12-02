@@ -46,6 +46,7 @@ export const CommentList: FC<CommentListProps> = ({
                 Existing Comments
             </Heading>
             {comments.map((comment, i) => (
+                // eslint-disable-next-line react/jsx-key
                 <Box
                     p={4}
                     textAlign={{ base: "left", md: "left" }}
