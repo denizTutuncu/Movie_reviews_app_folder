@@ -3,8 +3,8 @@
 The folder contains a Rust application and a React NextJS application /w Typescript to create a movie reviewing application.
 
 
-#### movie_review_comments is a Rust application which can be deployed on Solana blockchain to securely hold our movie data.
-#### solana-movie-frontend application is our next application and it displays our data which comes from Solana blockchain.
+#### 1. `movie_review_comments` is a Rust application which can be deployed on Solana blockchain to securely hold our movie data.
+#### 2. `solana-movie-frontend` application is our next application and it displays our data which comes from Solana blockchain.
  
 
  This program demonstrates a simple movie review program that allows users to post movie reviews and other users to comment on them. The program stores all the data on chain and is implemented using a set of Rust BPF programs.
