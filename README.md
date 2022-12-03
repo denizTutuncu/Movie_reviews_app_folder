@@ -11,11 +11,11 @@ The folder contains a Rust application and a React NextJS application /w Typescr
 
 ### Instructions
 
-1. Set-up your local Solana development environment (Devnet) using the instructions mentioned in the buildspace module.
+1. Set-up your local Solana development environment.
 2. Run `cargo build-bpf` in the `movie_review_comments` directory to build the BPF programs.
 3. Run command `solana program deploy ./target/deploy/movie_review_comments.so` to deploy the program.
 4. You will get a Program Id that can be used to communicate with the onchain program.
-* You can use either devnet or local cluster to deploy your program. (I've used devnet to deploy my program)
+* You can use either devnet or local cluster to deploy your program. (I've used devnet to deploy my program.)
 
 Setting up client to test the program
 
