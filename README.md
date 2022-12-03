@@ -21,4 +21,4 @@ Setting up client to test the program
 
 1. Run `npm install` in the `solana-movie-frontend` directory to install the dependencies.
 2. Replace the Program Id in the `client/utils/constants.ts` file with the Program Id you got after deploying the program.
-3. Run `npm run dev` or `yarn next dev` to start the client. Open http://localhost:3000 in your browser to interact with the program.
+3. Run `npm run dev` to start the client. Open http://localhost:3000 in your browser to interact with the program.
