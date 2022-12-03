@@ -11,14 +11,14 @@ The folder contains a Rust application and a React NextJS application /w Typescr
 
 ### Instructions
 
-Set-up your local Solana development environment (Devnet) using the instructions mentioned in the buildspace module.
-Run cargo build-bpf in the `movie_review_comments` directory to build the BPF programs.
-Run command `solana program deploy ./target/deploy/movie_review_comments.so` to deploy the program.
-You will get a Program Id that can be used to communicate with the onchain program.
+1. Set-up your local Solana development environment (Devnet) using the instructions mentioned in the buildspace module.
+2. Run cargo build-bpf in the `movie_review_comments` directory to build the BPF programs.
+3. Run command `solana program deploy ./target/deploy/movie_review_comments.so` to deploy the program.
+4. You will get a Program Id that can be used to communicate with the onchain program.
 * You can use either devnet or local cluster to deploy your program. (I've used devnet to deploy my program)
 
 Setting up client to test the program
 
-Run `npm install` in the `solana-movie-frontend` directory to install the dependencies.
-Replace the Program Id in the `client/utils/constants.ts` file with the Program Id you got after deploying the program.
-Run `yarn next dev ` to start the client. Open http://localhost:3000 in your browser to interact with the program.
+1. Run `npm install` in the `solana-movie-frontend` directory to install the dependencies.
+2. Replace the Program Id in the `client/utils/constants.ts` file with the Program Id you got after deploying the program.
+3. Run `yarn next dev ` to start the client. Open http://localhost:3000 in your browser to interact with the program.
