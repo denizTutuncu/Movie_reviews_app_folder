@@ -159,7 +159,7 @@ export const Form: FC = () => {
                     />
                 </FormControl>
                 <Button width="full" mt={4} type="submit">
-                    Submit Review
+                {toggle ? 'Submit Review' : 'Update Review'}
                 </Button>
             </form>
         </Box>
