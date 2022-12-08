@@ -330,7 +330,7 @@ pub fn add_comment(
     let mint_auth = next_account_info(account_info_iter)?;
     let user_ata = next_account_info(account_info_iter)?;
     let system_program = next_account_info(account_info_iter)?;
-    let token_program = next_account_info(account_info_iter)?;  
+    let token_program = next_account_info(account_info_iter)?; 
 
     let mut counter_data =
         try_from_slice_unchecked::<MovieCommentCounter>(&pda_counter.data.borrow()).unwrap();
@@ -417,7 +417,7 @@ pub fn add_comment(
 
     if *token_program.key != TOKEN_PROGRAM_ID {
         msg!("Incorrect token program");
-            return Err(ReviewError::IncorrectAccountError.into());
+        return Err(ReviewError::IncorrectAccountError.into());
     }
 
     msg!("Minting 5 tokens to User associated token account");
