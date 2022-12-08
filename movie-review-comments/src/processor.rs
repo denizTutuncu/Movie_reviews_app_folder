@@ -379,6 +379,32 @@ pub fn add_comment(
     counter_data.serialize(&mut &mut pda_counter.data.borrow_mut()[..])?;
     
     msg!("Minting 10 tokens to User associated token account");
+    msg!("deriving mint authority");
+    let (mint_pda, _mint_bump) = Pubkey::find_program_address(&[b"token_mint"], program_id);
+    let (mint_auth_pda, mint_auth_bump) =
+        Pubkey::find_program_address(&[b"token_auth"], program_id);
+
+    if *token_mint.key != mint_pda {
+        msg!("Incorrect token mint");
+        return Err(ReviewError::IncorrectAccountError.into());
+    }
+
+    if *mint_auth.key != mint_auth_pda {
+        msg!("Mint passed in and mint derived do not match");
+        return Err(ReviewError::InvalidPDA.into());
+    }
+
+    if *user_ata.key != get_associated_token_address(commenter.key, token_mint.key) {
+        msg!("Incorrect token mint");
+        return Err(ReviewError::IncorrectAccountError.into());
+    }
+
+    if *token_program.key != TOKEN_PROGRAM_ID {
+        msg!("Incorrect token program");
+            return Err(ReviewError::IncorrectAccountError.into());
+    }
+
+    msg!("Minting 5 tokens to User associated token account");
     invoke_signed(
         // Instruction
         &spl_token::instruction::mint_to(
@@ -387,11 +413,11 @@ pub fn add_comment(
             user_ata.key,
             mint_auth.key,
             &[],
-            10*LAMPORTS_PER_SOL,
-        )?, // ? unwraps and returns the error if there is one
+            5 * LAMPORTS_PER_SOL,
+        )?,
         // Account_infos
         &[token_mint.clone(), user_ata.clone(), mint_auth.clone()],
-        // Seeds 
+        // Seeds
         &[&[b"token_auth", &[mint_auth_bump]]],
     )?;
 
