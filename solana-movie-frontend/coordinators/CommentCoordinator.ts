@@ -18,7 +18,7 @@ export class CommentCoordinator {
         review: web3.PublicKey
     ): Promise<web3.PublicKey> {
         return (
-            await web3.PublicKey.findProgramAddress(
+            await web3.PublicKey.findProgramAddressSync(
                 [review.toBuffer(), Buffer.from("comment")],
                 new web3.PublicKey(MOVIE_REVIEW_PROGRAM_ID)
             )
@@ -54,7 +54,7 @@ export class CommentCoordinator {
         let paginatedPublicKeys: web3.PublicKey[] = []
 
         for (let i = start; i > end; i--) {
-            const [pda] = await web3.PublicKey.findProgramAddress(
+            const [pda] = await web3.PublicKey.findProgramAddressSync(
                 [
                     review.toBuffer(),
                     new BN([i - 1]).toArrayLike(Buffer, "be", 8),
