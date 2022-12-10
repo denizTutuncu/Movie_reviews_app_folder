@@ -193,6 +193,7 @@ const createUSDCTransaction = async (req, res) => {
 export default function handler(req, res) {
   if (req.method === "POST") {
     createTransaction(req, res);
+    // createUSDCTransaction(req, res);
   } else {
     res.status(405).end();
   }
