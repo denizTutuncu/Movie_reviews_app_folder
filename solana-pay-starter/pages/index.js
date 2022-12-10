@@ -69,7 +69,7 @@ const App = () => {
         </main>
 
         <div>
-          <div class="sub-text">
+          <div className="sub-text">
            <img alt="Twitter Logo" className="twitter-logo" src="twitter-logo.svg" />
            <a
             className="footer-text"
