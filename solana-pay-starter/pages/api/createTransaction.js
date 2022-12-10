@@ -11,12 +11,13 @@ import BigNumber from "bignumber.js";
 import products from "./products.json";
 import { createTransferCheckedInstruction, getAssociatedTokenAddress, getMint } from "@solana/spl-token";
 
-const mainUSDCAddress = new PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
-const usdcAddress = new PublicKey("Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr");
-// Make sure you replace this with your wallet address! DAO Treasury
-const sellerAddress = 'GBByA19DBaJuSYUZU6fckCv6BmHxn8wR2HdBu2YNkB2B'
+// const mainNetUSDCAddress = new PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
+const usdcDevNetAddress = new PublicKey("Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr");
+
+const sellerSOLAddress = 'GBByA19DBaJuSYUZU6fckCv6BmHxn8wR2HdBu2YNkB2B'
 const sellerUSDCAddress = '5BP8Pu21u1NxsJvG2rXrHUC9Gq5icgcgzgLFNLyGzQa3'
-const sellerPublicKey = new PublicKey(sellerAddress);
+const sellerUSDCPublicKey = new PublicKey(sellerUSDCAddress);
+const sellerSOLPublicKey = new PublicKey(sellerSOLAddress);
 
 const createTransaction = async (req, res) => {
   try {
@@ -66,7 +67,7 @@ const createTransaction = async (req, res) => {
       fromPubkey: buyerPublicKey,
       // Lamports are the smallest unit of SOL, like Gwei with Ethereum
       lamports: bigAmount.multipliedBy(LAMPORTS_PER_SOL).toNumber(), 
-      toPubkey: sellerPublicKey,
+      toPubkey: sellerSOLPublicKey,
     });
 
     // We're adding more instructions to the transaction
@@ -142,10 +143,10 @@ const createUSDCTransaction = async (req, res) => {
   
     //   MARK:- USDC PAYMENT STARTS ***
     //   This is new, we're getting the mint address of the token we want to transfer
-      const buyerUsdcAddress = await getAssociatedTokenAddress(mainUSDCAddress, buyerPublicKey);
-      const shopUsdcAddress = await getAssociatedTokenAddress(mainUSDCAddress, sellerPublicKey);
+      const buyerUsdcAddress = await getAssociatedTokenAddress(usdcDevNetAddress, buyerPublicKey);
+      const shopUsdcAddress = await getAssociatedTokenAddress(usdcDevNetAddress, sellerUSDCPublicKey);
       console.log("shopUsdcAddress", shopUsdcAddress.toString());
-      const usdcMint = await getMint(connection, mainUSDCAddress);
+      const usdcMint = await getMint(connection, usdcDevNetAddress);
   
       const tx = new Transaction({
           blockhash: blockhash,
@@ -156,7 +157,7 @@ const createUSDCTransaction = async (req, res) => {
       // Here we're creating a different type of transfer instruction
       const usdcTransferInstruction = createTransferCheckedInstruction(
           buyerUsdcAddress, 
-          mainUSDCAddress,     // This is the address of the token we want to transfer
+          usdcDevNetAddress,     // This is the address of the token we want to transfer
           shopUsdcAddress, 
           buyerPublicKey, 
           bigAmount.toNumber() * 10 ** (await usdcMint).decimals, 
