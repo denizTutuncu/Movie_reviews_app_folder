@@ -15,8 +15,6 @@ import { createTransferCheckedInstruction, getAssociatedTokenAddress, getMint } 
 const usdcDevNetAddress = new PublicKey("Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr");
 
 const sellerSOLAddress = 'GBByA19DBaJuSYUZU6fckCv6BmHxn8wR2HdBu2YNkB2B'
-const sellerUSDCAddress = '5BP8Pu21u1NxsJvG2rXrHUC9Gq5icgcgzgLFNLyGzQa3'
-const sellerUSDCPublicKey = new PublicKey(sellerUSDCAddress);
 const sellerSOLPublicKey = new PublicKey(sellerSOLAddress);
 
 const createTransaction = async (req, res) => {
@@ -98,15 +96,16 @@ const createTransaction = async (req, res) => {
   }
 }
 
+// const sellerUSDCAddress = 'CYEoWo8infRvinyn9sFcsN3caNmgLHaXywTp2LUpLHHF'
+const sellerUSDCAddress = '2i4PjkSQBhRjMeuADgS6hvDamyjm3YX6PEbFtH8dcSEZ'
+const sellerUSDCPublicKey = new PublicKey(sellerUSDCAddress);
 const createUSDCTransaction = async (req, res) => {
     try {
       // Extract the transaction data from the request body
       const { buyer, orderID, itemID } = req.body;
       console.log("buyer", buyer);
       console.log("orderID", orderID);
-      console.log("itemID", itemID);
-      console.log("orderID", orderID);
-     
+      console.log("itemID", itemID);     
   
       // If we don't have something we need, stop!
       if (!buyer) {
@@ -144,6 +143,7 @@ const createUSDCTransaction = async (req, res) => {
     //   MARK:- USDC PAYMENT STARTS ***
     //   This is new, we're getting the mint address of the token we want to transfer
       const buyerUsdcAddress = await getAssociatedTokenAddress(usdcDevNetAddress, buyerPublicKey);
+      console.log("buyerUsdcAddress", buyerUsdcAddress.toString());
       const shopUsdcAddress = await getAssociatedTokenAddress(usdcDevNetAddress, sellerUSDCPublicKey);
       console.log("shopUsdcAddress", shopUsdcAddress.toString());
       const usdcMint = await getMint(connection, usdcDevNetAddress);
@@ -192,8 +192,8 @@ const createUSDCTransaction = async (req, res) => {
 
 export default function handler(req, res) {
   if (req.method === "POST") {
-    createTransaction(req, res);
-    // createUSDCTransaction(req, res);
+    // createTransaction(req, res);
+    createUSDCTransaction(req, res);
   } else {
     res.status(405).end();
   }

@@ -1,37 +1,109 @@
 [
     {
       "id": 1,
-      "name": "AIC Publication Week 1 🗞",
-      "price": "0.01",
-      "description": "Get AIC DAO's very first publication for only 0.01 SOL! Includes 3 cool spots from 20 different cities.",
-      "image_url": "https://media.giphy.com/media/1KllEBZdsLBwt3sDMG/giphy.gif",
+      "name": "AIC Publication 1 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's very first publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/H31VnwaffLwmk/giphy.gif",
       "filename": "AICJournal.zip",
       "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
     },
     {
       "id": 2,
-      "name": "AIC Publication Week 2 🗞",
-      "price": "0.01",
-      "description": "Get AIC DAO's very first publication for only 0.01 SOL! Includes 3 cool spots from 20 different cities.",
-      "image_url": "https://media.giphy.com/media/1KllEBZdsLBwt3sDMG/giphy.gif",
+      "name": "AIC Publication 2 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/GTnNRPmtgmJHO/giphy.gif",
       "filename": "AICJournal.zip",
       "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
     },
     {
       "id": 3,
-      "name": "AIC Publication Week 3 🗞",
-      "price": "0.01",
-      "description": "Get AIC DAO's very first publication for only 0.01 SOL! Includes 3 cool spots from 20 different cities.",
-      "image_url": "https://media.giphy.com/media/1KllEBZdsLBwt3sDMG/giphy.gif",
+      "name": "AIC Publication 3 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/12USUuAEobRG1i/giphy.gif",
       "filename": "AICJournal.zip",
       "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
     },
     {
       "id": 4,
-      "name": "AIC Publication Week 4 🗞",
-      "price": "0.01",
-      "description": "Get AIC DAO's very first publication for only 0.01 SOL! Includes 3 cool spots from 20 different cities.",
-      "image_url": "https://media.giphy.com/media/1KllEBZdsLBwt3sDMG/giphy.gif",
+      "name": "AIC Publication 4 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/QubeYGWDIx1nN9Imh7/giphy.gif",
+      "filename": "AICJournal.zip",
+      "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
+    },
+    {
+      "id": 5,
+      "name": "AIC Publication 5 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/ikoUFi1tijWZG/giphy.gif",
+      "filename": "AICJournal.zip",
+      "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
+    },
+    {
+      "id": 6,
+      "name": "AIC Publication 6 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/Y2sh5TrypYRbo4PAu8/giphy.gif",
+      "filename": "AICJournal.zip",
+      "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
+    },
+    {
+      "id": 7,
+      "name": "AIC Publication 7 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/ai7BO3QbBSqk0/giphy-downsized-large.gif",
+      "filename": "AICJournal.zip",
+      "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
+    },
+    {
+      "id": 8,
+      "name": "AIC Publication 8 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/GGcRBaRwdtmhNvLchh/giphy.gif",
+      "filename": "AICJournal.zip",
+      "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
+    },
+    {
+      "id": 9,
+      "name": "AIC Publication 9 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's publication for only $1.00!. Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/137qIhWsIf9bDW/giphy.gif",
+      "filename": "AICJournal.zip",
+      "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
+    },
+    {
+      "id": 10,
+      "name": "AIC Publication 10 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's very first publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/12bF3AWU423YeA/giphy.gif",
+      "filename": "AICJournal.zip",
+      "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
+    },
+    {
+      "id": 11,
+      "name": "AIC Publication 11 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's very first publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/pDFjQXwNfWjfP7bWZY/giphy.gif",
+      "filename": "AICJournal.zip",
+      "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
+    },
+    {
+      "id": 12,
+      "name": "AIC Publication 12 🗞",
+      "price": "1.00",
+      "description": "Get AIC DAO's very first publication for only $1.00! Includes 1 story.",
+      "image_url": "https://media.giphy.com/media/DkYwpv7UkuEHfmznXr/giphy.gif",
       "filename": "AICJournal.zip",
       "hash": "QmWWH69mTL66r3H8P4wUn24t1L5pvdTJGUTKBqT11KCHS5"
     }

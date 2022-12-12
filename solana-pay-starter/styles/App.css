@@ -3,14 +3,15 @@
   background-color: rgb(20, 20, 20);
   text-align: center;
   overflow: hidden;
+  overflow-x: auto;
+  overflow-y: scroll;
 }
 
 .container {
-  height: 100%;
+  height: 120%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 30px 0 30px;
   color: white;
   position: relative;
 }
@@ -23,13 +24,17 @@
 }
 
 .header {
-  margin: 0;
-  font-size: 50px;
+  padding-right: 50px;
+  font-size: 100px;
   font-weight: bold;
+  width: auto;
+  height: auto;
 }
 
 .sub-text {
   font-size: 25px;
+  width: auto;
+  height: auto;
 }
 
 .gradient-text {
@@ -60,7 +65,7 @@
 
 .connect-wallet-button {
   color: white;
-  background: -webkit-linear-gradient(left, #ff8867, #ff52ff);
+  background: -webkit-linear-gradient(left, #FF0000, #000000);
   background-size: 200% 200%;
   animation: gradient-animation 4s ease infinite;
   max-width: 300px;
@@ -100,10 +105,9 @@ button:disabled {
   height: 35px;
 }
 
-.footer-text {
-  font-size: 16px;
-  font-weight: bold;
-  color: white;
+.DAO-logo {
+  width: 35px;
+  height: 35px;
 }
 
 .connected-container input[type='text'] {
@@ -149,7 +153,6 @@ button:disabled {
   font-size: 20px;
   font-weight: bold;
   position: fixed;
-  top: 20px;
   right: 20px;
   cursor: pointer;
   color:white;
@@ -165,8 +168,37 @@ button:disabled {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
 }
+
+.hstack {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  text-align: center;
+  width: auto;
+  height: auto;
+}
+
+.textaligment {
+  margin: 100px;
+  text-align: justify;
+  width: auto;
+  height: auto;
+}
+
+.footer-text {
+  font-size: auto;
+  font-weight: bold;
+  color: white;
+}
+
+.socialBottomAligment {
+  margin-bottom: 10px;
+  width: auto;
+  height: auto;
+}
+
 /* KeyFrames */
 @-webkit-keyframes gradient-animation {
   0% {
