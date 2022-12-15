@@ -563,7 +563,7 @@ mod tests {
     async fn test_initialize_mint_instruction() {
         let program_id = Pubkey::new_unique();
         let (mut banks_client, payer, recent_blockhash) = ProgramTest::new(
-            "movie_review_program",
+            "movie_review_comments",
             program_id,
             processor!(process_instruction),
         )
@@ -582,7 +582,7 @@ mod tests {
     async fn test_add_movie_review_instruction() {
         let program_id = Pubkey::new_unique();
         let (mut banks_client, payer, recent_blockhash) = ProgramTest::new(
-            "movie_review_program",
+            "movie_review_comments",
             program_id,
             processor!(process_instruction),
         )
