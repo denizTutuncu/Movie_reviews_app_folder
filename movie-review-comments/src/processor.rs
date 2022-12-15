@@ -594,7 +594,7 @@ mod tests {
         let title: String = "Captain America".to_owned();
         let rating: u8 = 3;
         let description: String = "Liked the movie".to_owned();
-        let init_ata_ix: Instruction = create_associated_token_account(&payer.pubkey(), &payer.pubkey(), &mint, &program_id);
+        let init_ata_ix: Instruction = create_associated_token_account(&payer.pubkey(), &payer.pubkey(), &mint, &TOKEN_PROGRAM_ID);
         let user_ata: Pubkey = get_associated_token_address(&payer.pubkey(), &mint);
         let add_movie_review_ix = create_add_movie_review_ix(
             payer.pubkey(),
